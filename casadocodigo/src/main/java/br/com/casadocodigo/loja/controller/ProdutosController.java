@@ -20,7 +20,7 @@ import br.com.casadocodigo.loja.model.TipoPreco;
 import br.com.casadocodigo.loja.validation.ProdutoValidation;
 
 @Controller
-@RequestMapping("produtos")
+@RequestMapping("/produtos")
 public class ProdutosController {
 	
 	/*Utilizamos o @AutoWired para indicar ao Spring que o objeto anotado é um Bean dele 
