@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+
+<div>${sucesso}</div>
 <table>
     <tr>
         <td>Título</td>
