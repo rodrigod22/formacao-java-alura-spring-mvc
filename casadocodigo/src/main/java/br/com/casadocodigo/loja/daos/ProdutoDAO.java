@@ -11,28 +11,22 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.casadocodigo.loja.model.Produto;
 
 @Repository
-//habilita o hibernate para cuidar das transacoes
 @Transactional
 public class ProdutoDAO {
-	
-	//persistenceContext faz o spring injetar o entity manager  
+
 	@PersistenceContext
-	private EntityManager em;
+	private EntityManager manager;
 	
 	public void gravar(Produto produto) {
-		em.persist(produto);
+		manager.persist(produto);
 	}
 
-	public List<Produto> listar() {		
-		return em.createQuery("select p from Produto p" , Produto.class).getResultList();
+	public List<Produto> listar() {
+		return manager.createQuery("select p from Produto p", Produto.class)
+				.getResultList();
 	}
-	
+
 	public Produto find(Integer id) {
-		
-		Produto resultado =  em.createQuery("select distinct(p) from Produto p join fetch p.precos preco "
-				+ "where p.id = :id", Produto.class).setParameter("id", id).getSingleResult();
-		System.out.println(resultado);
-		 return resultado;
-		
+        return manager.createQuery("select distinct(p) from Produto p join fetch p.precos precos where p.id = :id", Produto.class).setParameter("id", id).getSingleResult();
 	}
 }
