@@ -10,7 +10,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import br.com.casadocodigo.loja.model.CarrinhoCompras;
 import br.com.casadocodigo.loja.model.DadosPagamento;
 
@@ -25,9 +24,10 @@ public class PagamentoController {
 	private RestTemplate restTemplate;
 	
 	@RequestMapping(value = "/finalizar", method = RequestMethod.POST)
+	
 	//Callable faz a requisição assincrona com servidor
 	public Callable<ModelAndView> finalizar(RedirectAttributes model){
-	
+		
 		return ()->{
 			String uri = "http://book-payment.herokuapp.com/payment";
 			try {
@@ -42,10 +42,6 @@ public class PagamentoController {
 				System.out.println("Valor excedido");
 				return new ModelAndView("redirect:/produtos");
 			}
-		};
-		
-		
-		
-		
+		};		
 	}
 }
