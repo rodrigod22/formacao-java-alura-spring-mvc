@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
-
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -91,9 +91,9 @@
 						</td>
 						<td class="numeric-cell">${carrinhoCompras.getTotal(item) }</td>
 						<td class="remove-item">
-   							 <form action="${s:mvcUrl('CCC#remover').arg(0, item.produto.id).arg(1,item.tipoPreco).build() }" method="post">
+   							 <form:form action="${s:mvcUrl('CCC#remover').arg(0, item.produto.id).arg(1,item.tipoPreco).build() }" method="post">
        						 	<input type="image" src="${contextPath }/resources/imagens/excluir.png" alt="Excluir" title="Excluir" />
-    						</form>
+    						</form:form>
 						</td>
 					</tr>
 				</c:forEach>
@@ -101,16 +101,15 @@
 			<tfoot>
 				<tr>
 					<td colspan="3">
-						<form action="${s:mvcUrl('PC#finalizar').build() }" method="POST">
+						<form:form action="${s:mvcUrl('PC#finalizar').build() }" method="POST">
 							<input type="submit" class="checkout" name="checkout"
 									value="Finalizar compra" id="checkout" />
-						</form>	
+						</form:form>	
 					</td>
 					<td class="numeric-cell">${carrinhoCompras.total }</td>		
 				</tr>
 			</tfoot>
 		</table>
-
 		<h2>Você já conhece os outros livros da Casa do Código?</h2>
 		<ul id="collection" class="related-books">
 			<li class="col-left"><a href="/products/livro-plsql" class="block clearfix book-suggest"

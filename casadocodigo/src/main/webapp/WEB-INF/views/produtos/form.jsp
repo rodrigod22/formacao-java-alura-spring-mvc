@@ -21,10 +21,10 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a href="${s:mvcUrl('PC#listar').build()}" class="nav-link">Lista de Produtos</a>
+        <a href="${s:mvcUrl('PC#listar').build()}" class="nav-link" rel="nofollow">Lista de Produtos</a>
       </li>    
       <li class="nav-item">
-        <a href="${s:mvcUrl('PC#form').build()}" class="nav-link">Cadastro de Produtos</a>
+        <a href="${s:mvcUrl('PC#form').build()}" class="nav-link" rel="nofollow">Cadastro de Produtos</a>
       </li>
     </ul>
   </div>
