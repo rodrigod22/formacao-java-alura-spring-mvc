@@ -3,8 +3,10 @@ package br.com.casadocodigo.loja.config;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -17,21 +19,26 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class JPAConfiguration {
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
 		
 		//cria o entity managem factory
 		LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
 			
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+					
+		factoryBean.setJpaVendorAdapter(vendorAdapter);	
 		
-		//configuracoes do database
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setUsername("root");
-		dataSource.setPassword("root");
-		dataSource.setUrl("jdbc:mysql://localhost:3308/casadocodigo");
-		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		factoryBean.setDataSource(dataSource);	
 		
-		factoryBean.setJpaVendorAdapter(vendorAdapter);
+		factoryBean.setJpaProperties(aditionalProperties());
+		
+		//configuracao do diretorio onde estao as entidade
+		factoryBean.setPackagesToScan("br.com.casadocodigo.loja.model");		
+		
+		return factoryBean;		
+	}
+
+	private Properties aditionalProperties() {
 		
 		Properties props = new Properties();
 		
@@ -44,12 +51,18 @@ public class JPAConfiguration {
 		//propriedade para o hibernate cuidar do banco 
 		props.setProperty("hibernate.hbm2ddl.auto","update");
 		
-		factoryBean.setJpaProperties(props);
-		//configuracao do diretorio onde estao as entidade
-		factoryBean.setPackagesToScan("br.com.casadocodigo.loja.model");
-		factoryBean.setDataSource(dataSource);		
-		
-		return factoryBean;		
+		return props;
+	}
+
+	@Bean
+	@Profile("dev")
+	public DataSource dataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setUsername("root");
+		dataSource.setPassword("root");
+		dataSource.setUrl("jdbc:mysql://localhost:3308/casadocodigo");
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		return dataSource;
 	}
 	
 	@Bean
